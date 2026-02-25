@@ -1,9 +1,6 @@
-// app/layout.tsx
-import { SessionProvider } from "next-auth/react";
-import { CartProvider } from "@/context/cart-context";
-// import { Navbar } from "@/components/layout/navbar";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { Providers } from "@/components/providers";
 
 export default function RootLayout({
   children,
@@ -13,13 +10,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-[#F0F0F0]">
-        <SessionProvider>
-          <CartProvider>
-            <main>{children}</main>
-            <Toaster position="bottom-right" richColors />
-            {/* <Footer /> */}
-          </CartProvider>
-        </SessionProvider>
+        <Providers>
+          <main>{children}</main>
+          <Toaster position="bottom-right" richColors />
+        </Providers>
       </body>
     </html>
   );

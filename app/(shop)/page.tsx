@@ -21,7 +21,7 @@ export default function HomePage() {
       {/* Brand Ethos / Mission Statement */}
       <section className="py-24 bg-black text-white text-center">
         <div className="max-w-2xl mx-auto px-6 space-y-6">
-          <h3 className="text-4xl font-serif italic">"Efficiency is the new luxury."</h3>
+          <h3 className="text-4xl font-serif italic">&ldquo;Efficiency is the new luxury.&rdquo;</h3>
           <p className="text-neutral-400 text-sm tracking-widest uppercase">Designing for the 2026 Lifestyle</p>
         </div>
       </section>

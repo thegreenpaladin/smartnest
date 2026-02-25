@@ -1,42 +1,59 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
+const adminEmail = process.env.ADMIN_EMAIL;
+const adminPassword = process.env.ADMIN_PASSWORD;
+const userPassword = process.env.USER_PASSWORD;
+const allowedUserEmails = (process.env.USER_EMAILS ?? "")
+  .split(",")
+  .map((email) => email.trim().toLowerCase())
+  .filter(Boolean);
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   providers: [
     Credentials({
-      name: "Admin Login",
+      name: "Email & Password",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // REPLACE THESE with your desired admin credentials
-        const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+        const email = credentials?.email?.toString().toLowerCase().trim();
+        const password = credentials?.password?.toString();
 
-        if (
-          credentials?.email === ADMIN_EMAIL &&
-          credentials?.password === ADMIN_PASSWORD
-        ) {
-          return { id: "1", name: "Admin", email: ADMIN_EMAIL };
+        if (!email || !password) return null;
+
+        if (adminEmail && adminPassword && email === adminEmail.toLowerCase() && password === adminPassword) {
+          return { id: "admin-1", name: "Store Admin", email, role: "ADMIN" };
         }
+
+        if (userPassword && allowedUserEmails.includes(email) && password === userPassword) {
+          return { id: `user-${email}`, name: "SmartNest Customer", email, role: "USER" };
+        }
+
         return null;
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
   pages: {
-    signIn: "/sign-in", // Custom sign-in page
+    signIn: "/account/sign-in",
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnAdmin = nextUrl.pathname.startsWith("/admin");
-      
-      if (isOnAdmin) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
       }
-      return true;
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = (token.role as "ADMIN" | "USER" | undefined) ?? "USER";
+      }
+      return session;
     },
   },
 });

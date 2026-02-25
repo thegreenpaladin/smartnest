@@ -1,5 +1,3 @@
-// components/admin/sidebar.tsx
-import { SignOutButton } from "./sign-out-button";
 import { LayoutDashboard, Package, Layers, Settings } from "lucide-react";
 import Link from "next/link";
 import { SidebarProfile } from "./sidebar-profile";
@@ -15,7 +13,7 @@ export function AdminSidebar() {
   return (
     <div className="flex flex-col h-full p-6 bg-white border-r border-neutral-100">
       <div className="mb-10 px-2 text-2xl font-serif tracking-tighter">
-        AURA<span className="text-blue-600">.</span>
+        SmartNest<span className="text-blue-600">.</span>
       </div>
 
       <nav className="flex-1 space-y-1">
@@ -31,7 +29,6 @@ export function AdminSidebar() {
         ))}
       </nav>
 
-      {/* The Sign Out Button stays at the bottom */}
       <div className="mt-auto pt-6 border-t border-neutral-50">
         <SidebarProfile />
       </div>

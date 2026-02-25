@@ -1,22 +1,14 @@
-// components/shop/product-archive.tsx
-import { PRODUCTS } from "@/lib/data";
 import { ProductCard } from "@/components/shared/product-card";
+import { getProductsByCategory } from "@/lib/catalog";
 
 interface ProductArchiveProps {
   category?: string;
 }
 
 export const ProductArchive = async ({ category = "all" }: ProductArchiveProps) => {
-  // In a real app, this would be a database call: 
-  // const products = await db.product.findMany({ where: { category } })
-  console.log("category:", category);
-  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+  await new Promise((resolve) => setTimeout(resolve, 250));
 
-  const allProducts = PRODUCTS;
-
-  const filtered = category === "all" 
-    ? allProducts 
-    : allProducts.filter(p => p.category.toLowerCase() === category.toLowerCase());
+  const filtered = getProductsByCategory(category);
 
   return (
     <div className="space-y-10">

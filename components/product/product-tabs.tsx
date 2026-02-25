@@ -1,47 +1,41 @@
-// components/product/product-tabs.tsx
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProductSpecs } from "./product-specs";
+import { Product } from "@/lib/types";
 
-export const ProductTabs = ({ product }: { product: any }) => {
+export const ProductTabs = ({ product }: { product: Product }) => {
   return (
     <Tabs defaultValue="specs" className="w-full max-w-md">
-      {/* 1. Static Header: This never moves */}
       <TabsList className="w-full justify-start bg-transparent border-b border-neutral-100 rounded-none h-auto p-0 mb-8">
-        <TabsTrigger 
-          value="description" 
+        <TabsTrigger
+          value="description"
           className="rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent px-0 mr-8 pb-4 text-xs font-bold uppercase tracking-widest transition-all"
         >
           Overview
         </TabsTrigger>
-        
-        <TabsTrigger 
-          value="specs" 
+
+        <TabsTrigger
+          value="specs"
           className="rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent px-0 mr-8 pb-4 text-xs font-bold uppercase tracking-widest transition-all"
         >
           Tech Specs
         </TabsTrigger>
-        <TabsTrigger 
-          value="shipping" 
+        <TabsTrigger
+          value="shipping"
           className="rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent px-0 pb-4 text-xs font-bold uppercase tracking-widest transition-all"
         >
           Delivery
         </TabsTrigger>
       </TabsList>
 
-      {/* 2. Fixed-Height Container: 
-          Adjust 'min-h-[300px]' to match your longest content 
-      */}
       <div className="h-max transition-all duration-300">
         <TabsContent value="specs" className="mt-0 outline-none animate-in fade-in duration-500">
           <ProductSpecs specs={product.specs} />
         </TabsContent>
 
         <TabsContent value="description" className="mt-0 outline-none animate-in fade-in duration-500">
-          <p className="text-sm text-neutral-500 leading-relaxed">
-            {product.description}
-          </p>
+          <p className="text-sm text-neutral-500 leading-relaxed">{product.description}</p>
         </TabsContent>
 
         <TabsContent value="shipping" className="mt-0 outline-none animate-in fade-in duration-500">

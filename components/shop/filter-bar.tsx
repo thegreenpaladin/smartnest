@@ -1,25 +1,22 @@
-// components/shop/filter-bar.tsx
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-const CATEGORIES = ["all", "furniture", "decor", "textiles", "lighting"];
+const CATEGORIES = ["all", "lighting", "workspace", "utility"];
 
 export const FilterBar = ({ activeCategory }: { activeCategory: string }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const handleFilter = (category: string) => {
-    const params = new URLSearchParams(window.location.search); // Use window for fresh params
-    
+    const params = new URLSearchParams(window.location.search);
+
     if (category === "all") {
-        params.delete("category");
+      params.delete("category");
     } else {
-        params.set("category", category);
+      params.set("category", category);
     }
 
-    // Construct the new URL
     const query = params.toString() ? `?${params.toString()}` : "";
     router.push(`/shop${query}`);
   };
@@ -34,7 +31,7 @@ export const FilterBar = ({ activeCategory }: { activeCategory: string }) => {
             "px-6 py-2 rounded-full text-sm font-medium transition-all capitalize border",
             activeCategory === cat
               ? "bg-black text-white border-black"
-              : "bg-transparent text-neutral-500 border-neutral-200 hover:border-black hover:text-black"
+              : "bg-transparent text-neutral-500 border-neutral-200 hover:border-black hover:text-black",
           )}
         >
           {cat}

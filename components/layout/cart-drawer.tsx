@@ -2,7 +2,7 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/context/cart-context";
-import { ShoppingBag, Trash2, Plus, Minus, X } from "lucide-react";
+import { ShoppingBag, Plus, Minus, X } from "lucide-react";
 import Image from "next/image";
 
 export const CartDrawer = () => {
