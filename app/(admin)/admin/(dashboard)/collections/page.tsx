@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
-import { COLLECTIONS } from "@/lib/data";
+import { store } from "@/lib/store";
 
 export default function AdminCollectionsPage() {
+  const collections = store.getCollections();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
@@ -17,7 +19,7 @@ export default function AdminCollectionsPage() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        {COLLECTIONS.map((collection) => (
+        {collections.map((collection) => (
           <article key={collection.id} className="bg-white border border-neutral-100 rounded-3xl p-6 space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div>

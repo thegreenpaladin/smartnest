@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
-import { getProducts } from "@/lib/admin-store";
+import { store } from "@/lib/store";
 
 export default function AdminProductsPage() {
-  const products = getProducts();
+  const products = store.getProducts();
 
   return (
     <div className="space-y-6">

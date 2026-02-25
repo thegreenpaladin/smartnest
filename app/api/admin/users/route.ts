@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { store } from "@/lib/store";
+import { AppUser } from "@/lib/types";
 
 const unauthorized = () => NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+const omitPassword = (user: AppUser) => ({ id: user.id, name: user.name, email: user.email, role: user.role });
 
 export async function GET() {
   const session = await auth();
   if (!session?.user || session.user.role !== "ADMIN") return unauthorized();
 
-  return NextResponse.json({ products: store.getProducts() });
+  return NextResponse.json({ users: store.getUsers().map(omitPassword) });
 }
 
 export async function POST(request: Request) {
@@ -17,26 +19,21 @@ export async function POST(request: Request) {
 
   const body = (await request.json()) as {
     name?: string;
-    category?: string;
-    price?: number;
-    description?: string;
-    image?: string;
-    sizes?: string[];
+    email?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
   };
 
-  if (!body.name || !body.category || !body.description || typeof body.price !== "number") {
+  if (!body.name || !body.email || !body.password || !body.role) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  const product = store.createProduct({
+  const user = store.createUser({
     name: body.name,
-    category: body.category,
-    price: body.price,
-    description: body.description,
-    images: [body.image || "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=800"],
-    sizes: body.sizes?.length ? body.sizes : ["Standard"],
-    specs: { Material: "N/A", Warranty: "1 Year" },
+    email: body.email.toLowerCase(),
+    password: body.password,
+    role: body.role,
   });
 
-  return NextResponse.json({ product }, { status: 201 });
+  return NextResponse.json({ user: omitPassword(user) }, { status: 201 });
 }

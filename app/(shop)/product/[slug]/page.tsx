@@ -1,11 +1,10 @@
-// app/product/[slug]/page.tsx
-import { PRODUCTS } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { ProductDetails } from "@/components/product/product-details";
+import { store } from "@/lib/store";
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = PRODUCTS.find((p) => p.slug === slug);
+  const product = store.getProductBySlug(slug);
 
   if (!product) notFound();
 

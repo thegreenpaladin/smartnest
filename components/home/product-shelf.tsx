@@ -1,6 +1,5 @@
-// components/home/product-shelf.tsx
-import { PRODUCTS } from "@/lib/data";
 import { ProductCard } from "@/components/shared/product-card";
+import { getProductsByCategory } from "@/lib/catalog";
 import Link from "next/link";
 
 interface ProductShelfProps {
@@ -10,10 +9,7 @@ interface ProductShelfProps {
 }
 
 export const ProductShelf = ({ title, category, limit = 4 }: ProductShelfProps) => {
-  // Filter by category or just take top products
-  const filteredProducts = category 
-    ? PRODUCTS.filter(p => p.category.toLowerCase() === category.toLowerCase()).slice(0, limit)
-    : PRODUCTS.slice(0, limit);
+  const filteredProducts = getProductsByCategory(category).slice(0, limit);
 
   return (
     <section className="py-20 bg-white">
@@ -24,7 +20,7 @@ export const ProductShelf = ({ title, category, limit = 4 }: ProductShelfProps) 
             See More
           </Link>
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />

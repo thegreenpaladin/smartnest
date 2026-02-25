@@ -1,10 +1,10 @@
 import { ProductForm } from "@/components/admin/product-form";
-import { getProductById } from "@/lib/admin-store";
+import { store } from "@/lib/store";
 import { notFound } from "next/navigation";
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = store.getProductById(id);
 
   if (!product) notFound();
 

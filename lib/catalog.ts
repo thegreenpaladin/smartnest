@@ -1,5 +1,4 @@
-import { COLLECTIONS } from "@/lib/data";
-import { getProducts } from "@/lib/admin-store";
+import { store } from "@/lib/store";
 
 const categoryAliases: Record<string, string[]> = {
   lighting: ["lighting"],
@@ -13,17 +12,15 @@ export const getCollectionCategories = (slug: string) => {
 };
 
 export const getProductsByCategory = (category?: string) => {
-  const products = getProducts();
+  const products = store.getProducts();
   if (!category || category === "all") return products;
 
   const categoryList = getCollectionCategories(category);
-  return products.filter((product) =>
-    categoryList.includes(product.category.toLowerCase()),
-  );
+  return products.filter((product) => categoryList.includes(product.category.toLowerCase()));
 };
 
 export const searchProducts = (query?: string) => {
-  const products = getProducts();
+  const products = store.getProducts();
   if (!query) return products;
   const normalized = query.toLowerCase();
 
@@ -36,12 +33,15 @@ export const searchProducts = (query?: string) => {
 };
 
 export const getDashboardStats = () => {
-  const products = getProducts();
+  const products = store.getProducts();
+  const collections = store.getCollections();
+  const users = store.getUsers();
   const estimatedRevenue = products.reduce((total, product) => total + product.price, 0);
 
   return {
     totalProducts: products.length,
-    totalCollections: COLLECTIONS.length,
+    totalCollections: collections.length,
+    totalUsers: users.length,
     averagePrice: Number((estimatedRevenue / Math.max(products.length, 1)).toFixed(2)),
     estimatedRevenue,
   };

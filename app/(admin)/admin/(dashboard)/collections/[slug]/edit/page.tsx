@@ -1,9 +1,10 @@
-import { COLLECTIONS } from "@/lib/data";
+import { CollectionForm } from "@/components/admin/collection-form";
+import { store } from "@/lib/store";
 import { notFound } from "next/navigation";
 
 export default async function EditCollectionPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const collection = COLLECTIONS.find((item) => item.slug === slug);
+  const collection = store.getCollectionBySlug(slug);
 
   if (!collection) notFound();
 
@@ -14,14 +15,16 @@ export default async function EditCollectionPage({ params }: { params: Promise<{
         <p className="text-neutral-500 mt-1">Update the “{collection.title}” collection details.</p>
       </header>
 
-      <form className="bg-white border border-neutral-100 rounded-3xl p-8 grid gap-5">
-        <input defaultValue={collection.title} className="rounded-xl border border-neutral-200 px-4 py-3" />
-        <input defaultValue={collection.slug} className="rounded-xl border border-neutral-200 px-4 py-3" />
-        <textarea defaultValue={collection.description} className="rounded-xl border border-neutral-200 px-4 py-3" rows={4} />
-        <button type="button" className="rounded-full bg-black text-white px-5 py-3 text-xs font-bold uppercase tracking-widest w-fit">
-          Update Collection
-        </button>
-      </form>
+      <CollectionForm
+        mode="edit"
+        collectionSlug={collection.slug}
+        initialValues={{
+          title: collection.title,
+          slug: collection.slug,
+          description: collection.description,
+          image: collection.image,
+        }}
+      />
     </div>
   );
 }

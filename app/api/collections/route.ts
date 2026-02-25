@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
-import { COLLECTIONS } from "@/lib/data";
+import { store } from "@/lib/store";
 
 export async function GET() {
+  const collections = store.getCollections();
+
   return NextResponse.json({
-    count: COLLECTIONS.length,
-    collections: COLLECTIONS,
+    count: collections.length,
+    collections,
   });
 }

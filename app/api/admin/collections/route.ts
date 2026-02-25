@@ -8,7 +8,7 @@ export async function GET() {
   const session = await auth();
   if (!session?.user || session.user.role !== "ADMIN") return unauthorized();
 
-  return NextResponse.json({ products: store.getProducts() });
+  return NextResponse.json({ collections: store.getCollections() });
 }
 
 export async function POST(request: Request) {
@@ -16,27 +16,22 @@ export async function POST(request: Request) {
   if (!session?.user || session.user.role !== "ADMIN") return unauthorized();
 
   const body = (await request.json()) as {
-    name?: string;
-    category?: string;
-    price?: number;
+    title?: string;
+    slug?: string;
     description?: string;
     image?: string;
-    sizes?: string[];
   };
 
-  if (!body.name || !body.category || !body.description || typeof body.price !== "number") {
+  if (!body.title || !body.slug || !body.description || !body.image) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  const product = store.createProduct({
-    name: body.name,
-    category: body.category,
-    price: body.price,
+  const collection = store.createCollection({
+    title: body.title,
+    slug: body.slug,
     description: body.description,
-    images: [body.image || "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=800"],
-    sizes: body.sizes?.length ? body.sizes : ["Standard"],
-    specs: { Material: "N/A", Warranty: "1 Year" },
+    image: body.image,
   });
 
-  return NextResponse.json({ product }, { status: 201 });
+  return NextResponse.json({ collection }, { status: 201 });
 }

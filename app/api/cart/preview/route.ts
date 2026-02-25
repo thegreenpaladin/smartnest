@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PRODUCTS } from "@/lib/data";
+import { store } from "@/lib/store";
 
 interface CartPayload {
   productId: string;
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
   const normalizedItems = items
     .map((item) => {
-      const product = PRODUCTS.find((entry) => entry.id === item.productId);
+      const product = store.getProductById(item.productId);
       if (!product) return null;
 
       const quantity = Math.max(1, Number(item.quantity) || 1);
@@ -28,8 +28,5 @@ export async function POST(request: Request) {
 
   const subtotal = normalizedItems.reduce((sum, item) => sum + (item?.lineTotal ?? 0), 0);
 
-  return NextResponse.json({
-    items: normalizedItems,
-    subtotal,
-  });
+  return NextResponse.json({ items: normalizedItems, subtotal });
 }

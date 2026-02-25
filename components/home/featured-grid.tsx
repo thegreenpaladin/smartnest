@@ -1,10 +1,8 @@
-// components/home/featured-grid.tsx
-import { PRODUCTS } from "@/lib/data";
 import { ProductCard } from "@/components/shared/product-card";
+import { store } from "@/lib/store";
 
 export const FeaturedGrid = () => {
-  // We take the first 4 products to keep the "Teaser" look
-  const featuredProducts = PRODUCTS.slice(0, 4);
+  const featuredProducts = store.getProducts().slice(0, 4);
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
@@ -13,10 +11,7 @@ export const FeaturedGrid = () => {
           <h2 className="text-3xl font-serif">Featured Objects</h2>
           <p className="text-neutral-500 text-sm">Curated essentials for the modern home.</p>
         </div>
-        <a 
-          href="/shop" 
-          className="text-sm font-medium underline underline-offset-8 hover:text-neutral-500 transition-colors"
-        >
+        <a href="/shop" className="text-sm font-medium underline underline-offset-8 hover:text-neutral-500 transition-colors">
           View All
         </a>
       </div>
