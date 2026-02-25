@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
-import { PRODUCTS } from "@/lib/data";
+import { getProducts } from "@/lib/admin-store";
 
 export default function AdminProductsPage() {
+  const products = getProducts();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
@@ -27,7 +29,7 @@ export default function AdminProductsPage() {
             </tr>
           </thead>
           <tbody>
-            {PRODUCTS.map((product) => (
+            {products.map((product) => (
               <tr key={product.id} className="border-t border-neutral-100">
                 <td className="px-6 py-4 font-medium">{product.name}</td>
                 <td className="px-6 py-4">{product.category}</td>

@@ -1,3 +1,5 @@
+import { ProductForm } from "@/components/admin/product-form";
+
 export default function NewProductPage() {
   return (
     <div className="max-w-3xl space-y-6">
@@ -6,15 +8,7 @@ export default function NewProductPage() {
         <p className="text-neutral-500 mt-1">Create a new product entry for the storefront catalog.</p>
       </header>
 
-      <form className="bg-white border border-neutral-100 rounded-3xl p-8 grid gap-5">
-        <input className="rounded-xl border border-neutral-200 px-4 py-3" placeholder="Product name" />
-        <input className="rounded-xl border border-neutral-200 px-4 py-3" placeholder="Category" />
-        <input className="rounded-xl border border-neutral-200 px-4 py-3" placeholder="Price" />
-        <textarea className="rounded-xl border border-neutral-200 px-4 py-3" placeholder="Description" rows={4} />
-        <button type="button" className="rounded-full bg-black text-white px-5 py-3 text-xs font-bold uppercase tracking-widest w-fit">
-          Save Product
-        </button>
-      </form>
+      <ProductForm mode="create" />
     </div>
   );
 }
