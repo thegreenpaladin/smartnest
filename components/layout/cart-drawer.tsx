@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { useCart } from "@/context/cart-context";
 import { ShoppingBag, Plus, Minus, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export const CartDrawer = () => {
   const { state, removeItem, updateQuantity } = useCart();
@@ -95,9 +96,9 @@ export const CartDrawer = () => {
               </p>
             </div>
             
-            <button className="w-full bg-black text-white py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-neutral-800 transition-all active:scale-[0.98]">
+            <Link href="/checkout" className="block w-full text-center bg-black text-white py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-neutral-800 transition-all active:scale-[0.98]">
               Proceed to Checkout
-            </button>
+            </Link>
           </div>
         )}
       </SheetContent>

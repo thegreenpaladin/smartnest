@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
 import { store } from "@/lib/store";
+import { DeleteProductButton } from "@/components/admin/actions/delete-product-button";
 
 export default function AdminProductsPage() {
   const products = store.getProducts();
@@ -35,7 +36,7 @@ export default function AdminProductsPage() {
                 <td className="px-6 py-4">{product.category}</td>
                 <td className="px-6 py-4">${product.price}</td>
                 <td className="px-6 py-4">
-                  <div className="flex justify-end">
+                  <div className="flex justify-end gap-2">
                     <Link
                       href={`/admin/products/${product.id}/edit`}
                       className="inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:border-black hover:text-black transition-colors"
@@ -43,6 +44,7 @@ export default function AdminProductsPage() {
                       <Pencil size={12} />
                       Edit
                     </Link>
+                    <DeleteProductButton id={product.id} />
                   </div>
                 </td>
               </tr>

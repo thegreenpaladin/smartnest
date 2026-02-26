@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
 import { store } from "@/lib/store";
+import { DeleteCollectionButton } from "@/components/admin/actions/delete-collection-button";
 
 export default function AdminCollectionsPage() {
   const collections = store.getCollections();
@@ -26,13 +27,16 @@ export default function AdminCollectionsPage() {
                 <h2 className="text-xl font-semibold">{collection.title}</h2>
                 <p className="text-sm text-neutral-500 mt-1">/{collection.slug}</p>
               </div>
-              <Link
-                href={`/admin/collections/${collection.slug}/edit`}
-                className="inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:border-black hover:text-black transition-colors"
-              >
-                <Pencil size={12} />
-                Edit
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/admin/collections/${collection.slug}/edit`}
+                  className="inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:border-black hover:text-black transition-colors"
+                >
+                  <Pencil size={12} />
+                  Edit
+                </Link>
+                <DeleteCollectionButton slug={collection.slug} />
+              </div>
             </div>
             <p className="text-neutral-600">{collection.description}</p>
           </article>

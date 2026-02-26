@@ -27,7 +27,7 @@ export function SidebarProfile() {
       {isOpen && (
         <div className="absolute bottom-full left-0 w-full mb-2 p-2 bg-white border border-neutral-100 rounded-2xl shadow-xl z-50 animate-in fade-in slide-in-from-bottom-2">
           <button
-            onClick={() => signOut({ callbackUrl: "/account/sign-in" })}
+            onClick={() => signOut({ callbackUrl: "/admin/sign-in" })}
             className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-xl transition-colors"
           >
             <LogOut size={16} />

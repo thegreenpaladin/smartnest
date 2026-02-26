@@ -10,6 +10,7 @@ export default auth((req) => {
   const isAdminSignIn = pathname === "/admin/sign-in";
   const isAccountRoute = pathname.startsWith("/account");
   const isAccountSignIn = pathname === "/account/sign-in";
+  const isAccountRegister = pathname === "/account/register";
 
   if (isAdminRoute && !isAdminSignIn) {
     if (!isLoggedIn) {
@@ -25,11 +26,11 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/admin", req.url));
   }
 
-  if (isAccountRoute && !isAccountSignIn && !isLoggedIn) {
+  if (isAccountRoute && !isAccountSignIn && !isAccountRegister && !isLoggedIn) {
     return NextResponse.redirect(new URL("/account/sign-in", req.url));
   }
 
-  if (isAccountSignIn && isLoggedIn) {
+  if ((isAccountSignIn || isAccountRegister) && isLoggedIn) {
     return NextResponse.redirect(new URL("/account", req.url));
   }
 
