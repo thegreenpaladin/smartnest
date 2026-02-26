@@ -1,5 +1,5 @@
 import { COLLECTIONS, PRODUCTS } from "@/lib/data";
-import { AppUser, Collection, Product, UserRole } from "@/lib/types";
+import { AppUser, CheckoutItem, Collection, Order, Product, UserRole } from "@/lib/types";
 
 const adminEmail = process.env.ADMIN_EMAIL?.toLowerCase() ?? "admin@smartnest.com";
 const adminPassword = process.env.ADMIN_PASSWORD ?? "admin123";
@@ -14,6 +14,7 @@ const globalStore = globalThis as unknown as {
     products: Product[];
     collections: Collection[];
     users: AppUser[];
+    orders: Order[];
   };
 };
 
@@ -34,6 +35,7 @@ const getStore = () => {
       products: PRODUCTS.map((product) => ({ ...product })),
       collections: COLLECTIONS.map((collection) => ({ ...collection })),
       users: seedUsers,
+      orders: [],
     };
   }
   return globalStore.smartNestStore;
@@ -113,5 +115,35 @@ export const store = {
     if (index === -1) return false;
     users.splice(index, 1);
     return true;
+  },
+
+  getOrders: () => [...getStore().orders],
+  getOrderById: (id: string) => getStore().orders.find((item) => item.id === id) ?? null,
+  createOrder: (payload: Omit<Order, "id" | "createdAt">) => {
+    const order: Order = { ...payload, id: crypto.randomUUID(), createdAt: new Date().toISOString() };
+    getStore().orders.unshift(order);
+    return order;
+  },
+  updateOrder: (id: string, payload: Partial<Order>) => {
+    const orders = getStore().orders;
+    const index = orders.findIndex((item) => item.id === id);
+    if (index === -1) return null;
+    orders[index] = { ...orders[index], ...payload, id: orders[index].id };
+    return orders[index];
+  },
+  getCheckoutItemsFromCart: (cartItems: { productId: string; quantity: number }[]) => {
+    const items: CheckoutItem[] = [];
+    for (const entry of cartItems) {
+      const product = getStore().products.find((item) => item.id === entry.productId)
+        ?? getStore().products.find((item) => entry.productId.startsWith(`${item.id}-`));
+      if (!product) continue;
+      items.push({
+        productId: product.id,
+        name: product.name,
+        unitPrice: product.price,
+        quantity: Math.max(1, entry.quantity),
+      });
+    }
+    return items;
   },
 };

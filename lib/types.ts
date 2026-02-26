@@ -27,3 +27,30 @@ export interface AppUser {
   password: string;
   role: UserRole;
 }
+
+export type PaymentMethod = "COD" | "SAFEPAY";
+export type PaymentStatus = "PENDING" | "PAID" | "FAILED";
+
+export interface CheckoutItem {
+  productId: string;
+  name: string;
+  unitPrice: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  customerName: string;
+  customerEmail: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  items: CheckoutItem[];
+  subtotal: number;
+  shipping: number;
+  total: number;
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
+  paymentReference?: string;
+  createdAt: string;
+}
