@@ -11,10 +11,10 @@ const userEmails = (process.env.USER_EMAILS ?? "user@smartnest.com")
 
 const globalStore = globalThis as unknown as {
   smartNestStore?: {
-    products: Product[];
-    collections: Collection[];
-    users: AppUser[];
-    orders: Order[];
+    products?: Product[];
+    collections?: Collection[];
+    users?: AppUser[];
+    orders?: Order[];
   };
 };
 
@@ -30,15 +30,28 @@ const seedUsers: AppUser[] = [
 ];
 
 const getStore = () => {
-  if (!globalStore.smartNestStore) {
+  const current = globalStore.smartNestStore;
+
+  if (!current) {
     globalStore.smartNestStore = {
       products: PRODUCTS.map((product) => ({ ...product })),
       collections: COLLECTIONS.map((collection) => ({ ...collection })),
-      users: seedUsers,
+      users: [...seedUsers],
       orders: [],
     };
+  } else {
+    current.products ??= PRODUCTS.map((product) => ({ ...product }));
+    current.collections ??= COLLECTIONS.map((collection) => ({ ...collection }));
+    current.users ??= [...seedUsers];
+    current.orders ??= [];
   }
-  return globalStore.smartNestStore;
+
+  return globalStore.smartNestStore as {
+    products: Product[];
+    collections: Collection[];
+    users: AppUser[];
+    orders: Order[];
+  };
 };
 
 export const store = {
