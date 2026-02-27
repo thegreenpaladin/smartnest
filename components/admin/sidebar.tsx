@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, Layers, Settings, Users } from "lucide-react";
+import { LayoutDashboard, Package, Layers, Settings, Users, Truck } from "lucide-react";
 import Link from "next/link";
 import { SidebarProfile } from "./sidebar-profile";
 
@@ -7,6 +7,7 @@ export function AdminSidebar() {
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Inventory", href: "/admin/products", icon: Package },
     { name: "Collections", href: "/admin/collections", icon: Layers },
+    { name: "Orders", href: "/admin/orders", icon: Truck },
     { name: "Users", href: "/admin/users", icon: Users },
     { name: "Settings", href: "/admin/settings", icon: Settings },
   ];

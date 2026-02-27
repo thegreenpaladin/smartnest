@@ -30,12 +30,20 @@ export interface AppUser {
 
 export type PaymentMethod = "COD" | "SAFEPAY";
 export type PaymentStatus = "PENDING" | "PAID" | "FAILED";
+export type FulfillmentStatus = "PLACED" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
 
 export interface CheckoutItem {
   productId: string;
   name: string;
   unitPrice: number;
   quantity: number;
+}
+
+export interface TrackingEvent {
+  id: string;
+  status: FulfillmentStatus;
+  note: string;
+  createdAt: string;
 }
 
 export interface Order {
@@ -51,6 +59,16 @@ export interface Order {
   total: number;
   paymentMethod: PaymentMethod;
   paymentStatus: PaymentStatus;
+  fulfillmentStatus: FulfillmentStatus;
+  trackingEvents: TrackingEvent[];
   paymentReference?: string;
   createdAt: string;
+}
+
+export interface AdminNotification {
+  id: string;
+  orderId: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
 }

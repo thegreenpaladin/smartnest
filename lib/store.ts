@@ -1,5 +1,5 @@
 import { COLLECTIONS, PRODUCTS } from "@/lib/data";
-import { AppUser, CheckoutItem, Collection, Order, Product, UserRole } from "@/lib/types";
+import { AppUser, CheckoutItem, Collection, Order, Product, TrackingEvent, UserRole, AdminNotification, FulfillmentStatus } from "@/lib/types";
 
 const adminEmail = process.env.ADMIN_EMAIL?.toLowerCase() ?? "admin@smartnest.com";
 const adminPassword = process.env.ADMIN_PASSWORD ?? "admin123";
@@ -8,15 +8,6 @@ const userEmails = (process.env.USER_EMAILS ?? "user@smartnest.com")
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);
-
-const globalStore = globalThis as unknown as {
-  smartNestStore?: {
-    products?: Product[];
-    collections?: Collection[];
-    users?: AppUser[];
-    orders?: Order[];
-  };
-};
 
 const seedUsers: AppUser[] = [
   { id: "admin-1", name: "Store Admin", email: adminEmail, password: adminPassword, role: "ADMIN" },
@@ -29,6 +20,23 @@ const seedUsers: AppUser[] = [
   })),
 ];
 
+const globalStore = globalThis as unknown as {
+  smartNestStore?: {
+    products?: Product[];
+    collections?: Collection[];
+    users?: AppUser[];
+    orders?: Order[];
+    notifications?: AdminNotification[];
+  };
+};
+
+const createTrackingEvent = (status: FulfillmentStatus, note: string): TrackingEvent => ({
+  id: crypto.randomUUID(),
+  status,
+  note,
+  createdAt: new Date().toISOString(),
+});
+
 const getStore = () => {
   const current = globalStore.smartNestStore;
 
@@ -38,12 +46,14 @@ const getStore = () => {
       collections: COLLECTIONS.map((collection) => ({ ...collection })),
       users: [...seedUsers],
       orders: [],
+      notifications: [],
     };
   } else {
     current.products ??= PRODUCTS.map((product) => ({ ...product }));
     current.collections ??= COLLECTIONS.map((collection) => ({ ...collection }));
     current.users ??= [...seedUsers];
     current.orders ??= [];
+    current.notifications ??= [];
   }
 
   return globalStore.smartNestStore as {
@@ -51,6 +61,7 @@ const getStore = () => {
     collections: Collection[];
     users: AppUser[];
     orders: Order[];
+    notifications: AdminNotification[];
   };
 };
 
@@ -132,18 +143,51 @@ export const store = {
 
   getOrders: () => [...getStore().orders],
   getOrderById: (id: string) => getStore().orders.find((item) => item.id === id) ?? null,
-  createOrder: (payload: Omit<Order, "id" | "createdAt">) => {
-    const order: Order = { ...payload, id: crypto.randomUUID(), createdAt: new Date().toISOString() };
+  createOrder: (payload: Omit<Order, "id" | "createdAt" | "trackingEvents" | "fulfillmentStatus">) => {
+    const order: Order = {
+      ...payload,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+      fulfillmentStatus: "PLACED",
+      trackingEvents: [createTrackingEvent("PLACED", "Order placed successfully.")],
+    };
+
     getStore().orders.unshift(order);
+    getStore().notifications.unshift({
+      id: crypto.randomUUID(),
+      orderId: order.id,
+      message: `New order placed by ${order.customerName} (${order.paymentMethod})`,
+      createdAt: new Date().toISOString(),
+      read: false,
+    });
     return order;
   },
   updateOrder: (id: string, payload: Partial<Order>) => {
     const orders = getStore().orders;
     const index = orders.findIndex((item) => item.id === id);
     if (index === -1) return null;
-    orders[index] = { ...orders[index], ...payload, id: orders[index].id };
+
+    const current = orders[index];
+    const nextStatus = payload.fulfillmentStatus;
+    const trackingEvents = [...current.trackingEvents];
+
+    if (nextStatus && nextStatus !== current.fulfillmentStatus) {
+      trackingEvents.unshift(createTrackingEvent(nextStatus, `Status changed to ${nextStatus}.`));
+    }
+
+    orders[index] = { ...current, ...payload, trackingEvents, id: current.id };
     return orders[index];
   },
+
+  getNotifications: () => [...getStore().notifications],
+  markNotificationRead: (id: string) => {
+    const notifications = getStore().notifications;
+    const index = notifications.findIndex((item) => item.id === id);
+    if (index === -1) return null;
+    notifications[index] = { ...notifications[index], read: true };
+    return notifications[index];
+  },
+
   getCheckoutItemsFromCart: (cartItems: { productId: string; quantity: number }[]) => {
     const items: CheckoutItem[] = [];
     for (const entry of cartItems) {
