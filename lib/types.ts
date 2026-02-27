@@ -4,6 +4,7 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  compareAtPrice?: number;
   images: string[];
   category: string;
   slug: string;

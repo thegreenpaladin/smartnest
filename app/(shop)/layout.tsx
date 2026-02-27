@@ -1,6 +1,5 @@
-// app/(store)/layout.tsx
 import { Navbar } from "@/components/layout/navbar";
-// import { Footer } from "@/components/layout/footer";
+import { Footer } from "@/components/layout/footer";
 
 export default function StoreLayout({
   children,
@@ -11,7 +10,7 @@ export default function StoreLayout({
     <>
       <Navbar />
       <main>{children}</main>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

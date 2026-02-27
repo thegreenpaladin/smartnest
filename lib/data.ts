@@ -4,24 +4,31 @@
 export const COLLECTIONS = [
     {
         id: "col-1",
-        title: "Ambient Lighting",
+        title: "Smart Lighting",
         slug: "lighting",
-        description: "Smart LEDs and lamps designed to transform your space with a single tap.",
-        image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800", // High-tech LED shot
+        description: "LED panels, smart lamps, and ambient systems for modern rooms.",
+        image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800",
     },
     {
         id: "col-2",
-        title: "Workspace Comfort",
-        slug: "workspace",
-        description: "Quiet personal fans and desk gadgets to keep you focused and cool.",
-        image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=800", // Clean desk setup
+        title: "Power & Charging",
+        slug: "portable-power",
+        description: "Power banks, travel charging stations, and utility-ready portable power.",
+        image: "https://images.unsplash.com/photo-1609091839311-d5368195ad71?auto=format&fit=crop&q=80&w=800",
     },
     {
         id: "col-3",
-        title: "Essential Utility",
+        title: "Cooling & Workspace",
+        slug: "personal-climate",
+        description: "Personal cooling gadgets and desk essentials for productive setups.",
+        image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=800",
+    },
+    {
+        id: "col-4",
+        title: "Home Utility Electronics",
         slug: "utility",
-        description: "Rechargeable lighters and tools that replace disposables for a smarter home.",
-        image: "https://images.unsplash.com/photo-1622467820155-212624da5233?auto=format&fit=crop&q=80&w=800", // Macro tech shot
+        description: "Everyday electronic tools for convenience, safety, and small-space living.",
+        image: "https://images.unsplash.com/photo-1622467820155-212624da5233?auto=format&fit=crop&q=80&w=800",
     }
 ];
 
@@ -31,6 +38,7 @@ export const PRODUCTS = [
         id: "g1",
         name: "Smart LED Glow Cube",
         price: 85,
+        compareAtPrice: 99,
         images: ["https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800"],
         category: "Lighting",
         slug: "smart-glow-cube",
@@ -48,6 +56,7 @@ export const PRODUCTS = [
         id: "g2",
         name: "Minimalist Mag-Safe Desk Lamp",
         price: 145,
+        compareAtPrice: 179,
         images: ["https://cdn.pixabay.com/photo/2022/02/07/14/15/lamp-6999488_1280.jpg"],
         category: "Lighting",
         slug: "mag-safe-lamp",
@@ -65,6 +74,7 @@ export const PRODUCTS = [
         id: "g3",
         name: "Hexa-Link Wall Panels",
         price: 195,
+        compareAtPrice: 229,
         images: ["https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=800"],
         category: "Lighting",
         slug: "hexa-link-panels",
@@ -100,6 +110,7 @@ export const PRODUCTS = [
         id: "g5",
         name: "Titan 20K Power Bank",
         price: 110,
+        compareAtPrice: 139,
         images: ["https://images.unsplash.com/photo-1609091839311-d5368195ad71?auto=format&fit=crop&q=80&w=800"],
         category: "Portable Power",
         slug: "titan-power-bank",
@@ -117,6 +128,7 @@ export const PRODUCTS = [
         id: "g6",
         name: "Magnetic 3-in-1 Foldable Station",
         price: 90,
+        compareAtPrice: 119,
         images: ["https://images.unsplash.com/photo-1616401775146-042655483125?auto=format&fit=crop&q=80&w=800"],
         category: "Portable Power",
         slug: "foldable-3in1-station",
@@ -153,6 +165,7 @@ export const PRODUCTS = [
         id: "g8",
         name: "Smart Neck Cooler Pro",
         price: 180,
+        compareAtPrice: 225,
         images: ["https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800"],
         category: "Personal Climate",
         slug: "neck-cooler-pro",
@@ -170,6 +183,7 @@ export const PRODUCTS = [
         id: "g9",
         name: "Sonic Essence Diffuser",
         price: 75,
+        compareAtPrice: 95,
         images: ["https://cdn.pixabay.com/photo/2019/03/22/22/04/essential-oils-4074315_1280.jpg"],
         category: "Utility",
         slug: "sonic-diffuser",

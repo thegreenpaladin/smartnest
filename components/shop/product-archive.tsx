@@ -11,7 +11,7 @@ export const ProductArchive = async ({ category = "all" }: ProductArchiveProps) 
   const filtered = getProductsByCategory(category);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       <div className="flex justify-between items-center text-sm text-neutral-500 font-medium">
         <p>Showing {filtered.length} products</p>
         <div className="flex gap-4">
@@ -20,7 +20,7 @@ export const ProductArchive = async ({ category = "all" }: ProductArchiveProps) 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filtered.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

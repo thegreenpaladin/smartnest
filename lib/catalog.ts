@@ -2,8 +2,9 @@ import { store } from "@/lib/store";
 
 const categoryAliases: Record<string, string[]> = {
   lighting: ["lighting"],
-  workspace: ["personal climate"],
-  utility: ["portable power", "utility"],
+  "portable-power": ["portable power"],
+  "personal-climate": ["personal climate"],
+  utility: ["utility"],
 };
 
 export const getCollectionCategories = (slug: string) => {
