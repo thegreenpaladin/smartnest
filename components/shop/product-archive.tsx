@@ -1,25 +1,17 @@
-// components/shop/product-archive.tsx
-import { PRODUCTS } from "@/lib/data";
 import { ProductCard } from "@/components/shared/product-card";
+import { getProductsByCategory } from "@/lib/catalog";
 
 interface ProductArchiveProps {
   category?: string;
 }
 
 export const ProductArchive = async ({ category = "all" }: ProductArchiveProps) => {
-  // In a real app, this would be a database call: 
-  // const products = await db.product.findMany({ where: { category } })
-  console.log("category:", category);
-  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+  await new Promise((resolve) => setTimeout(resolve, 250));
 
-  const allProducts = PRODUCTS;
-
-  const filtered = category === "all" 
-    ? allProducts 
-    : allProducts.filter(p => p.category.toLowerCase() === category.toLowerCase());
+  const filtered = getProductsByCategory(category);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       <div className="flex justify-between items-center text-sm text-neutral-500 font-medium">
         <p>Showing {filtered.length} products</p>
         <div className="flex gap-4">
@@ -28,7 +20,7 @@ export const ProductArchive = async ({ category = "all" }: ProductArchiveProps) 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filtered.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
